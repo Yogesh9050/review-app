@@ -12,6 +12,18 @@ function searchCompany() {
         return;
     }
 
+    fetch(`/avgRating?name=${encodeURIComponent(name)}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultsDiv = document.getElementById('result');
+            resultsDiv.innerHTML = '';
+            // document.getElementById('averageRating').innerHTML = 
+            //     `<h3>Average Rating: ${data.averageRating} ★</h3>`;
+            resultsDiv.innerHTML += `<h3>Average Rating: ${data.averageRating} ★</h3>`;
+        })
+        .catch(error => console.error('Error fetching average rating:', error));
+
+
     fetch(`/search?name=${encodeURIComponent(name)}`)
         .then(response => response.json())
         .then(data => {
@@ -23,10 +35,10 @@ function searchCompany() {
                 return;
             }
 
+
             data.forEach(review => {
                 resultsDiv.innerHTML += `
                         <div>
-                            <h3>${review.name}</h3>
                             <p><strong>Pros:</strong> ${review.pro}</p>
                             <p><strong>Cons:</strong> ${review.con}</p>
                             <p><strong>Rating:</strong> ${review.rating} ★</p>

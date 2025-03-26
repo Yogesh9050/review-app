@@ -26,9 +26,9 @@ module.exports = class Review {
                             WHERE name = ?`, [name])
     }
 
-    static getRating(name) {
+    static getRating(companyName) {
         return db.execute(`SELECT AVG(rating) AS Rating FROM company 
-            WHERE name = ?`, [name])
+            WHERE name = ?`, [companyName])
     }
 
 }
