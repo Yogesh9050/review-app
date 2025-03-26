@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.rating-container {
+    font-size: 40px;
+    cursor: pointer;
+    color: gray;
+    display: flex;
+    justify-content: center;
+}
+
+.star {
+    transition: color 0.2s;
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}

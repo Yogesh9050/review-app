@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Form</title>
+    <link rel="stylesheet" href="/css/reviewForm.css">
+</head>
+
+<body>
+    <form action="/rating" method="post">
+        <label for="name">Company Name</label>
+        <input type="text" id="name" name="name">
+        <lable for="pro">Pros:</lable>
+        <input type="text" name="pro" id="pro">
+        <lable for="con">Cons:</lable>
+        <input type="text" name="con" id="con">
+        <input type="hidden" id="rating" name="rating" value="">
+        <div class="rating-container">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <br>
+    <div>
+        <label for="companyName">Search Company</label>
+        <input type="search" name="companyName" id="companyName">
+        <button onclick="searchCompany()">Search</button>
+    </div>
+
+    <div id="main-Result">
+        <div id="result">
+
+        </div>
+        
+    </div>
+
+    <script src="/js/rating.js"></script>
+</body>
+
+</html>
