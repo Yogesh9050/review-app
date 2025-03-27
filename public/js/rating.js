@@ -12,31 +12,26 @@ function searchCompany() {
         return;
     }
 
-    fetch(`/avgRating?name=${encodeURIComponent(name)}`)
-        .then(response => response.json())
-        .then(data => {
-            const resultsDiv = document.getElementById('result');
-            resultsDiv.innerHTML = '';
-            // document.getElementById('averageRating').innerHTML = 
-            //     `<h3>Average Rating: ${data.averageRating} ★</h3>`;
-            resultsDiv.innerHTML += `<h3>Average Rating: ${data.averageRating} ★</h3>`;
-        })
-        .catch(error => console.error('Error fetching average rating:', error));
-
-
     fetch(`/search?name=${encodeURIComponent(name)}`)
         .then(response => response.json())
         .then(data => {
             const resultsDiv = document.getElementById('result');
-            resultsDiv.innerHTML = '';  // Clear previous results
+            resultsDiv.innerHTML = '';
+
+            const ratingStr = data.averageRating;
+            const rating = parseInt(ratingStr);
+
+            document.getElementById('averageRating').innerHTML =
+                `<h3>Average Rating: ${ratingStr} ★</h3>`;
 
             if (data.error || data.message) {
                 resultsDiv.innerHTML = `<p>${data.message || data.error}</p>`;
                 return;
             }
 
+            resultsDiv.innerHTML += `<h2>${name}</h2>`;
 
-            data.forEach(review => {
+            data.reviews.forEach(review => {
                 resultsDiv.innerHTML += `
                         <div>
                             <p><strong>Pros:</strong> ${review.pro}</p>
@@ -46,6 +41,7 @@ function searchCompany() {
                         <hr>
                     `;
             });
+
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error fetching reviews:', error));
 }

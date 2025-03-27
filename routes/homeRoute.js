@@ -25,12 +25,20 @@ router.post('/rating', (req, res) => {
 
 router.get('/search', (req, res) => {
     const companyName = req.query.name;
-    Review.findByName(companyName)
-    .then(([rows]) => {
-        if(rows.length === 0){
+    Promise.all([Review.findByName(companyName), Review.getRating(companyName)])
+    .then(result => {
+        if(result.length === 0){
             return res.status(404).json({ message: 'No reviews found for this company' });
         }
-        res.json(rows);
+        const reviews = result[0][0];
+        const rating = result[1][0][0].Rating;
+
+
+        res.json({
+            company: companyName,
+            averageRating: rating,
+            reviews: reviews
+        });
     })
     .catch(err => {
         console.error(err);
@@ -38,24 +46,6 @@ router.get('/search', (req, res) => {
     });
 });
 
-router.get('/avgRating', (req, res) => {
-    const companyName = req.query.name;
-
-    Review.getRating(companyName)
-    .then(([rows]) => {
-        if (rows.length === 0 || rows[0].Rating === null) {
-            return res.json({ averageRating: 0 }); 
-        }
-
-        const averageRating = parseFloat(rows[0].Rating.toFixed(2)); 
-
-        res.json({ averageRating });
-    })
-    .catch(err => {
-        console.error("Database Error:", err);
-        res.status(500).json({ error: 'Database error' });
-    });
-});
 
 
 module.exports = router;
